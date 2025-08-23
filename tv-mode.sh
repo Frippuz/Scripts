@@ -22,8 +22,13 @@ tv-mode-off(){
 
   # pactl list short sinks
 
-  # Set audio device to Focusrite Scarlett Solo
-  pactl set-default-sink alsa_output.usb-Focusrite_Scarlett_Solo_USB_Y7HB506223BDA6-00.Direct__Direct__sink
+  # Set audio device to Focusrite Scarlett Solo dynamically
+  SINK=$(pactl list short sinks | grep 'Focusrite_Scarlett_Solo_USB' | awk '{print $2}' | head -n1)
+  if [ -n "$SINK" ]; then
+    pactl set-default-sink "$SINK"
+  fi
+
+
   sleep 1
   paplay /usr/share/sounds/freedesktop/stereo/dialog-information.oga
   notify-send "TV Mode" "TV mode has been turned off"
@@ -44,11 +49,22 @@ tv-mode-on(){
 
   # Set audio device to TV
   pactl set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo
+  
+
+  # SINK=$(pactl list short sinks | grep 'hdmi-stereo' | awk '{print $2}' | head -n1)
+  # echo "$SINK"
+  # if [ -n "$SINK" ]; then
+  #   pactl set-default-sink "$SINK"
+  # fi
+
+
   sleep 1
   paplay /usr/share/sounds/freedesktop/stereo/dialog-information.oga
   notify-send "TV Mode" "TV mode has been turned on"
 }
 
+
+# TODO: replace STATE_FILE with environment variable instead and make it non persistent across reboots.
 if [ -f "$STATE_FILE" ] && grep -q "true" "$STATE_FILE"; then
     echo "Turning TV mode OFF..."
     tv-mode-off
