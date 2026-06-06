@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Clean steam cache to fix unresponsive controller after update.
+rm -rf ~/.local/share/Steam/userdata/*/241100/
+rm -rf ~/.local/share/Steam/steamapps/common/'Steam Controller Configs'
+rm -rf ~/.local/share/Steam/appcache/
+rm -rf ~/.local/share/Steam/config/

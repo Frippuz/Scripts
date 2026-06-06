@@ -1,0 +1,9 @@
+#!/bin/bash
+
+path=$(gsettings get org.gnome.desktop.background picture-uri)
+# Output is something like: 'file:///home/frippuz/.local/share/backgrounds/2026-01-16-13-51-15-wallhaven-vpg295.jpg'
+
+path=${path#\'file://}  # Remove the 'file://' prefix and the leading quote
+path=${path%\'*}        # Remove the trailing quote
+BLUR_BG=~/.local/share/backgrounds/blurred_wallpaper.jpg
+magick "$path" -blur 0x8 $BLUR_BG
