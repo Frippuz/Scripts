@@ -1,0 +1,5 @@
+#!/bin/bash
+# Convert image to A4 sized pdf
+name=$1
+basename="${name%.*}"
+magick $name -gravity center -background white -resize 595.32x841.92 $basename.pdf
