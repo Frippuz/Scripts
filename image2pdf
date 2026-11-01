@@ -3,8 +3,7 @@
 # Afterwards join with:
 # pdftk file1.pdf file2.pdf file3.pdf cat output outputfile.pdf flatten
 # or similar
-#
-lukorvaus_kokous_vene.pdf flatten
+
 for var in "$@"; do
 	echo "Processing: $var"
 	magick "$var" \
